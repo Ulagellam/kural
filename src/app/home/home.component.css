@@ -1,0 +1,44 @@
+.kural {
+    font-weight: bold;
+    font-size: 14px;
+    width: 5rem;
+}
+
+.kural-item {
+    margin: 20px;
+    height: max-content;
+}
+
+.meaning-text {
+    white-space: normal;
+}
+.kural-btn {
+    height: max-content;
+}
+
+.spacer {
+    flex: 1 1 auto;
+  }.kural-container {
+    width: 600px;
+}
+
+  @media (max-width: 760px) {
+    .kural-container {
+        width: 200px;
+    }
+  }
+
+  .pal {
+    margin: 20px;
+    border-radius: 10px;
+    height: 10;
+}
+.pals {
+    border: 0;
+}
+
+.mat-button-toggle {
+    width: 10rem;
+    height: 3rem;
+    font-size: x-large;
+}

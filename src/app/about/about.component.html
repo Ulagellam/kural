@@ -1,0 +1,27 @@
+<div class="container container-middle">
+  <mat-tab-group>
+    <mat-tab label="About Us">
+      <div class="tab-container">
+        <p>{{ details.al1 }}</p>
+        <p>{{ details.al2 }}</p>
+        <br />
+        <h4>{{ details.contactTitle }}</h4>
+        <p>{{ details.cl1 }}</p>
+      </div>
+    </mat-tab>
+    <mat-tab label="Team"> <div class="tab-container justify-content-center">
+        <mat-card *ngFor="let team of details.team" class="card">
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title class="avatar-name">{{team.name}}</mat-card-title>
+                    <mat-card-subtitle>{{team.title}}</mat-card-subtitle>
+                    <img mat-card-lg-image class="avatar" src="assets/{{team.photo}}" >
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{team.desc}}</p>
+            </mat-card-content>
+        </mat-card>
+    </div></mat-tab>
+  </mat-tab-group>
+</div>

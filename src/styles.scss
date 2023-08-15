@@ -1,0 +1,20 @@
+
+@use '@angular/material' as mat;
+@include mat.core();
+
+$kuralpal-new-primary: mat.define-palette(mat.$deep-purple-palette, 400);
+$kuralpal-new-accent: mat.define-palette(mat.$purple-palette, A200, A100, A400);
+
+$kuralpal-new-theme: mat.define-light-theme((
+  color: (
+    primary: $kuralpal-new-primary,
+    accent: $kuralpal-new-accent
+  )
+));
+
+@include mat.all-component-themes($kuralpal-new-theme);
+
+
+.mat-button-toggle-label-content {
+  color: map-get($map: mat.$deep-purple-palette, $key: 400);
+}

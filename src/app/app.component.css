@@ -1,0 +1,25 @@
+.sidenav {
+    width: 20rem;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+  }
+
+.nav-item {
+    color: white !important;
+}
+
+p.text {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+h1.title {
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+label.button-label{
+    font-size:x-small;
+}

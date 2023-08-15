@@ -1,0 +1,16 @@
+.tab-container {
+    margin: 20px;
+}
+
+.card{
+    margin: 20px;
+    /* width: 50%; */
+}
+
+.avatar-name{
+    font-size: x-large !important;
+}
+
+.avatar {
+    margin: 20px;
+}

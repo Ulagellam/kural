@@ -1,0 +1,64 @@
+<mat-drawer-container autosize [hasBackdrop]="true">
+  <mat-drawer #leftSidenav class="sidenav" mode="over">
+    <mat-toolbar color="primary" class="sidenav-toolbar">
+      <h1>{{ dataService.labels.siteName }}</h1>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/">
+        <div class="inset">{{ dataService.labels.home }}</div>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/valluvar">
+        <div class="inset">{{ dataService.labels.valluvar }}</div>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/translators">
+        <div class="inset">{{ dataService.labels.translators }}</div>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/why">
+        <div class="inset">{{ dataService.labels.why }}</div>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/contribute">
+        <div class="inset">{{ dataService.labels.contribute }}</div>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item routerLink="/about">
+        <div class="inset">{{ dataService.labels.aboutus }}</div>
+      </a>
+      <mat-divider></mat-divider>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-toolbar color="primary" #leftSidenav class="toolbar">
+    <button mat-icon-button (click)="openLeftMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a class="navbar-brand" routerLink="/">
+    <span>{{ dataService.labels.siteName }}</span>
+    </a>
+    <span class="toolbar-spacer"></span>
+    <div class="nav-item">
+
+      <!-- <mat-form-field appearance="outline">
+        <mat-label><strong>{{ dataService.selectedLanguage }}</strong></mat-label>
+        <mat-select (ngModel)="dataService.selectedLanguage" (ngModelChange)="dataService.selectedTrans()">
+          <mat-option *ngFor="let lng of lang"  [value]="lng">{{ lng.name }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+      
+      <button mat-button [matMenuTriggerFor]="langMenu" aria-haspopup="true" aria-expanded="false" id="lang-menu-button">
+        <strong>{{ dataService.selectedLanguage }}</strong>
+      </button>
+      <mat-menu #langMenu="matMenu">
+        <button mat-menu-item *ngFor="let lng of lang" (click)="dataService.selectedTrans(lng.name)">{{ lng.name }}</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+  <mat-divider></mat-divider>
+  <p class="text-center m-2">
+    © 2016-{{year}} Ulagellam Technologies Pvt Ltd
+  </p>
+</mat-drawer-container>
