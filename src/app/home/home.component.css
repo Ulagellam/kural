@@ -29,16 +29,17 @@
   }
 
   .pal {
-    margin: 20px;
+    margin: 10px !important;
     border-radius: 10px;
-    height: 10;
+    width: max-content;
+    height: 3rem;
+    font-size: x-large;
+    font-weight: bold;
 }
 .pals {
     border: 0;
 }
 
-.mat-button-toggle {
-    width: 10rem;
-    height: 3rem;
-    font-size: x-large;
+.pal-container{
+    padding: 0;
 }

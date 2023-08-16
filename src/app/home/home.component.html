@@ -1,15 +1,11 @@
 <div class="container">
   <div class="row justify-content-center text-center m-2">
-    <div class="col-md-12">
-      <mat-button-toggle-group class="pals">
-        <mat-button-toggle
-          *ngFor="let p of dataService.pal"
-          (click)="dataService.selectedIyl(p.id)"
-          class="pal"
-        >
-          {{ p.name }}
-        </mat-button-toggle>
-      </mat-button-toggle-group>
+    <div class="col-xl-6">
+      <div class="row justify-content-center text-center">
+        <div class="col-md-4 pal-container" *ngFor="let p of dataService.pal" >
+          <button mat-button color="primary" class="pal" (click)="dataService.selectedIyl(p.id)">{{ p.name }}</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -20,7 +16,7 @@
           ><strong>{{ dataService.labels.iyal }}</strong></mat-label
         >
         <mat-select
-        [(value)]="dataService.selectedIyal"
+          [(value)]="dataService.selectedIyal"
           (selectionChange)="dataService.selectedAthikaram()"
         >
           <mat-option *ngFor="let iyal of dataService.iyals" [value]="iyal">{{
@@ -53,8 +49,8 @@
     <div class="col-md-12">
       <label
         >{{ dataService.selectedPal }} > {{ dataService.selectedIyal }} >
-        {{ dataService.athikaram }}</label
-      >
+        {{ dataService.athikaram }}</label>
+    
       <mat-list role="list">
         <button
         mat-button
@@ -62,16 +58,14 @@
         (click)="playKural(kural)"
         *ngFor="let kural of dataService.kurals; let i = index"
         >
-        <mat-list-item class="kural-item" role="listitem">
-          <div
-          class="row justify-content-center text-center"
-          >
-          <div class="col-md-1">
-            <p>{{kural.id}}</p>
-          </div>
-          
-            <div class="kural-container col-md-6">
-                <p class="kural" >{{ kural.l1 }}<br />{{ kural.l2 }}</p>
+          <mat-list-item class="kural-item" role="listitem">
+            <div class="row justify-content-center text-center">
+              <div class="col-md-1">
+                <p>{{ kural.id }}</p>
+              </div>
+
+              <div class="kural-container col-md-6">
+                <p class="kural">{{ kural.l1 }}<br />{{ kural.l2 }}</p>
                 <audio
                   *ngIf="dataService.langExtension === ''"
                   [id]="kural.id"
