@@ -5,6 +5,9 @@
         <div class="col-md-4 pal-container" *ngFor="let p of dataService.pal" >
           <button mat-button color="primary" class="pal" (click)="dataService.selectedIyl(p.id)">{{ p.name }}</button>
         </div>
+        <div class="col-md-4 pal-container">
+          <app-search></app-search>
+        </div>
       </div>
     </div>
   </div>
@@ -47,30 +50,22 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <label
-        >{{ dataService.selectedPal }} > {{ dataService.selectedIyal }} >
-        {{ dataService.athikaram }}</label>
-    
+      <label class="breadcrumb">
+        {{ dataService.selectedPal }} > {{ dataService.selectedIyal }} > {{ dataService.athikaram }}
+      </label>
+  
       <mat-list role="list">
-        <button
-        mat-button
-        class="kural-btn"
-        (click)="playKural(kural)"
-        *ngFor="let kural of dataService.kurals; let i = index"
-        >
+        <button mat-button class="kural-btn" (click)="playKural(kural)" *ngFor="let kural of dataService.kurals; let i = index">
           <mat-list-item class="kural-item" role="listitem">
             <div class="row justify-content-center text-center">
-              <div class="col-md-1">
-                <p>{{ kural.id }}</p>
+              <div class="col">
+                <p class="kural-id">{{ kural.id }}</p>
               </div>
-
-              <div class="kural-container col-md-6">
+  
+              <div class="col-md-6">
+                
                 <p class="kural">{{ kural.l1 }}<br />{{ kural.l2 }}</p>
-                <audio
-                  *ngIf="dataService.langExtension === ''"
-                  [id]="kural.id"
-                  [src]="'assets/mp3/' + kural.id + '.mp3'"
-                ></audio>
+                <audio *ngIf="dataService.langExtension === ''" [id]="kural.id" [src]="'assets/mp3/' + kural.id + '.mp3'"></audio>
               </div>
               <div class="col-md-5">
                 <p class="meaning-text">{{ dataService.trans[i]?.meaning }}</p>
@@ -81,4 +76,5 @@
       </mat-list>
     </div>
   </div>
+  
 </div>

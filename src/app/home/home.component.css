@@ -1,7 +1,6 @@
 .kural {
     font-weight: bold;
     font-size: 14px;
-    width: 5rem;
 }
 
 .kural-item {
@@ -18,15 +17,7 @@
 
 .spacer {
     flex: 1 1 auto;
-  }.kural-container {
-    width: 600px;
 }
-
-  @media (max-width: 760px) {
-    .kural-container {
-        width: 200px;
-    }
-  }
 
   .pal {
     margin: 10px !important;

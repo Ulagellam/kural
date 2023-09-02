@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -27,6 +29,7 @@ import { TranslatorsComponent } from './translators/translators.component';
 import { WhyComponent } from './why/why.component';
 import { ContributeComponent } from './contribute/contribute.component';
 import { AboutComponent } from './about/about.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import { AboutComponent } from './about/about.component';
     TranslatorsComponent,
     WhyComponent,
     ContributeComponent,
-    AboutComponent
+    AboutComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,9 @@ import { AboutComponent } from './about/about.component';
     MatRadioModule,
     MatCardModule,
     MatSidenavModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
