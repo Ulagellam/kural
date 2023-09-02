@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DataService } from './services/data.service';
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -7,7 +7,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   @ViewChild('leftSidenav') leftSidenav: MatSidenav;
   year = new Date().getFullYear();
   lang = [
@@ -21,12 +21,8 @@ export class AppComponent implements OnInit{
     }
   ];
 
-  constructor(public dataService: DataService) {
-  }
   
-  ngOnInit() {
-    // this.dataService.selectedTrans()
-    
+  constructor(public dataService: DataService) {
   }
 
   openLeftMenu() {

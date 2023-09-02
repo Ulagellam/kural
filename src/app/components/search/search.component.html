@@ -1,0 +1,17 @@
+<mat-form-field appearance="outline">
+    <input
+      type="text"
+      placeholder="Search"
+      matInput
+      [(ngModel)]="searchTerm"
+      (input)="filterData()"
+      [matAutocomplete]="auto"
+
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let item of filteredData" [value]="item.id" (click) = "setKural(item.id)">
+        {{ item.id }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  

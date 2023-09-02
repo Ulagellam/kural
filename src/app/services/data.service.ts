@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-
 interface SiteData {
   siteName: string;
   name: string;
@@ -21,29 +20,29 @@ interface SiteData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-  
-   langExtension = '';
-   selectedLanguage = 'தமிழ்';
-   selectedIyalValue = '';
-   selectedAthikaramValue = '';
-    labels: SiteData 
-   selectedIyal = "";
-   iyals: any[] = [];
-   athikarams: any[] = [];
-   athikaram = "";
-   kurals: any[] = [];
-   trans: any[] = [];
-   pal: any[] = [];
-   selectedPalId = 1;
-   selectedPal = "";
+  isLoading = true;
+  langExtension = '';
+  selectedLanguage = 'தமிழ்';
+  selectedIyalValue = '';
+  selectedAthikaramValue = '';
+  labels: SiteData;
+  selectedIyal = '';
+  iyals: any[] = [];
+  athikarams: any[] = [];
+  athikaram = '';
+  kurals: any[] = [];
+  trans: any[] = [];
+  pal: any[] = [];
+  selectedPalId = 1;
+  selectedPal = '';
 
   constructor(private http: HttpClient) {
-    this.loadLabels()
+    this.loadLabels();
   }
-  
+
   updateLangExtensions(language: string) {
     if (language === 'English') {
       this.langExtension = '_en';
@@ -53,72 +52,94 @@ export class DataService {
   }
 
   loadLabels() {
-    this.http.get(`assets/kural/label${this.langExtension}.json`).subscribe((data: any) => {
-      this.labels = data
-    });
+    this.http
+      .get(`assets/kural/label${this.langExtension}.json`)
+      .subscribe((data: any) => {
+        this.labels = data;
+      });
   }
 
   selectedIyl(palId: number) {
-    this.http.get(`assets/kural/iyal${this.langExtension}.json`).subscribe((data1: any[]) => {
-      let iyals: string[] = [];
-      for (let i = 0; i < data1.length; i++) {
-        if (data1[i].pal_id === palId) {
-          iyals = data1[i].iyal;
+    this.http
+      .get(`assets/kural/iyal${this.langExtension}.json`)
+      .subscribe((data1: any[]) => {
+        let iyals: string[] = [];
+        for (let i = 0; i < data1.length; i++) {
+          if (data1[i].pal_id === palId) {
+            iyals = data1[i].iyal;
+          }
         }
-      }
-      this.iyals = iyals;
-      this.selectedIyal = this.iyals[0];
-      this.selectedAthikaram();
-    });
+        this.iyals = iyals;
+        this.selectedIyal = this.iyals[0];
+        this.selectedAthikaram();
+      });
   }
 
   selectedAthikaram() {
-    console.log(this.selectedIyal)
-    this.http.get(`assets/kural/athikaram${this.langExtension}.json`).subscribe((data: any[]) => {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].iyal === this.selectedIyal) {
-          this.athikarams = data[i].athikaram;
+    console.log(this.selectedIyal);
+    this.http
+      .get(`assets/kural/athikaram${this.langExtension}.json`)
+      .subscribe((data: any[]) => {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].iyal === this.selectedIyal) {
+            this.athikarams = data[i].athikaram;
+          }
         }
-      }
-      this.athikaram = this.athikarams[0];
-      this.selectedKurals(this.athikaram);
-    });
+        this.athikaram = this.athikarams[0];
+        this.selectedKurals(this.athikaram);
+      });
   }
 
   selectedKurals(selectedAthikaram: string) {
-    this.http.get(`assets/kural/kurals${this.langExtension}.json`).subscribe((data: any[]) => {
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].athikaram.replace(/^\s+|\s+$/g, '') === this.athikaram.replace(/^\s+|\s+$/g, '')) {
-          this.kurals = data[i].kurals;
-        }
-      }
-      this.athikaram = selectedAthikaram;
-      this.http.get(`assets/kural/translation${this.langExtension}.json`).subscribe((transData: any[]) => {
-        this.trans = [];
-        for (let i = 0; i < transData.length; i++) {
-          if (transData[i].athikaram.replace(/^\s+|\s+$/g, '') === this.athikaram.replace(/^\s+|\s+$/g, '')) {
-            for (let j = 0; j < transData[i].trans.length; j++) {
-              this.trans.push(transData[i].trans[j]);
-            }
+    this.getAllKurals()
+      .subscribe((data: any[]) => {
+        for (let i = 0; i < data.length; i++) {
+          if (
+            data[i].athikaram.replace(/^\s+|\s+$/g, '') ===
+            this.athikaram.replace(/^\s+|\s+$/g, '')
+          ) {
+            this.kurals = data[i].kurals;
           }
         }
+        this.athikaram = selectedAthikaram;
+        this.http
+          .get(`assets/kural/translation${this.langExtension}.json`)
+          .subscribe((transData: any[]) => {
+            this.trans = [];
+            for (let i = 0; i < transData.length; i++) {
+              if (
+                transData[i].athikaram.replace(/^\s+|\s+$/g, '') ===
+                this.athikaram.replace(/^\s+|\s+$/g, '')
+              ) {
+                for (let j = 0; j < transData[i].trans.length; j++) {
+                  this.trans.push(transData[i].trans[j]);
+                }
+              }
+            }
+          });
       });
-    });
   }
 
+  
   selectedTrans(language) {
-    this.selectedLanguage = language
-    localStorage.setItem("lang", language)
+    this.selectedLanguage = language;
+    localStorage.setItem('lang', language);
     this.updateLangExtensions(language);
     this.selectedIyl(1);
     this.selectedAthikaram();
     this.selectedKurals(this.athikaram);
     this.loadLabels();
-    this.http.get(`assets/kural/pal${this.langExtension}.json`).subscribe((data: any[]) => {
+    this.http
+    .get(`assets/kural/pal${this.langExtension}.json`)
+    .subscribe((data: any[]) => {
       this.pal = data;
       this.selectedPalId = data[0].id;
       this.selectedPal = data[0].name;
     });
   }
 
+  getAllKurals() {
+    return this.http
+      .get<any[]>(`assets/kural/kurals${this.langExtension}.json`);
+  }
 }
