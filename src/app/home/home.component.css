@@ -1,6 +1,7 @@
 .kural {
     font-weight: bold;
     font-size: 14px;
+    text-align: left;
 }
 
 .kural-item {
@@ -10,8 +11,10 @@
 
 .meaning-text {
     white-space: normal;
+    text-align: left;
+
 }
-.kural-btn {
+.kural-div {
     height: max-content;
 }
 
@@ -33,4 +36,18 @@
 
 .pal-container{
     padding: 0;
+}
+
+.play{
+    border-radius: 5px;
+    text-align: left;
+}
+
+.play:hover {
+    background-color: rgba(128, 128, 128, 0.308);
+}
+
+.word {
+    margin: 3px;
+    text-decoration: dashed;
 }

@@ -17,6 +17,10 @@ interface SiteData {
   aboutus: string;
   contactus: string;
   team: string;
+  search: {
+    number: string;
+    search: string;
+  };
 }
 
 @Injectable({
@@ -91,36 +95,32 @@ export class DataService {
   }
 
   selectedKurals(selectedAthikaram: string) {
-    this.getAllKurals()
-      .subscribe((data: any[]) => {
-        for (let i = 0; i < data.length; i++) {
+    this.getAllKurals().subscribe((data: any[]) => {
+      for (let i = 0; i < data.length; i++) {
+        if (
+          data[i].athikaram.replace(/^\s+|\s+$/g, '') ===
+          this.athikaram.replace(/^\s+|\s+$/g, '')
+        ) {
+          this.kurals = data[i].kurals;
+        }
+      }
+      this.athikaram = selectedAthikaram;
+      this.getAllTrans().subscribe((transData: any[]) => {
+        this.trans = [];
+        for (let i = 0; i < transData.length; i++) {
           if (
-            data[i].athikaram.replace(/^\s+|\s+$/g, '') ===
+            transData[i].athikaram.replace(/^\s+|\s+$/g, '') ===
             this.athikaram.replace(/^\s+|\s+$/g, '')
           ) {
-            this.kurals = data[i].kurals;
+            for (let j = 0; j < transData[i].trans.length; j++) {
+              this.trans.push(transData[i].trans[j]);
+            }
           }
         }
-        this.athikaram = selectedAthikaram;
-        this.http
-          .get(`assets/kural/translation${this.langExtension}.json`)
-          .subscribe((transData: any[]) => {
-            this.trans = [];
-            for (let i = 0; i < transData.length; i++) {
-              if (
-                transData[i].athikaram.replace(/^\s+|\s+$/g, '') ===
-                this.athikaram.replace(/^\s+|\s+$/g, '')
-              ) {
-                for (let j = 0; j < transData[i].trans.length; j++) {
-                  this.trans.push(transData[i].trans[j]);
-                }
-              }
-            }
-          });
       });
+    });
   }
 
-  
   selectedTrans(language) {
     this.selectedLanguage = language;
     localStorage.setItem('lang', language);
@@ -130,16 +130,23 @@ export class DataService {
     this.selectedKurals(this.athikaram);
     this.loadLabels();
     this.http
-    .get(`assets/kural/pal${this.langExtension}.json`)
-    .subscribe((data: any[]) => {
-      this.pal = data;
-      this.selectedPalId = data[0].id;
-      this.selectedPal = data[0].name;
-    });
+      .get(`assets/kural/pal${this.langExtension}.json`)
+      .subscribe((data: any[]) => {
+        this.pal = data;
+        this.selectedPalId = data[0].id;
+        this.selectedPal = data[0].name;
+      });
   }
 
   getAllKurals() {
-    return this.http
-      .get<any[]>(`assets/kural/kurals${this.langExtension}.json`);
+    return this.http.get<any[]>(
+      `assets/kural/kurals${this.langExtension}.json`
+    );
+  }
+
+  getAllTrans() {
+    return this.http.get<any[]>(
+      `assets/kural/translation${this.langExtension}.json`
+    );
   }
 }

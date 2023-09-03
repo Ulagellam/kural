@@ -1,17 +1,40 @@
 <mat-form-field appearance="outline">
-    <input
-      type="text"
-      placeholder="Search"
-      matInput
-      [(ngModel)]="searchTerm"
-      (input)="filterData()"
-      [matAutocomplete]="auto"
+  <input
+    type="text"
+    placeholder="{{ this.dataService.labels.search.number }}"
+    matInput
+    [(ngModel)]="numberSearch"
+    (input)="filterDataByNumber()"
+    [matAutocomplete]="number"
+  />
+  <mat-autocomplete #number="matAutocomplete">
+    <mat-option
+      *ngFor="let item of filteredData"
+      [value]="item.id"
+      (click)="setKuralWithId(item.id)"
+    >
+      {{ item.id }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
 
-    />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let item of filteredData" [value]="item.id" (click) = "setKural(item.id)">
-        {{ item.id }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  
+<mat-form-field appearance="outline" [style.width.px]="327">
+  <input
+    type="text"
+    placeholder="{{ this.dataService.labels.search.search }}"
+    matInput
+    [(ngModel)]="search"
+    (input)="filterData()"
+    [matAutocomplete]="normal"
+  />
+  <mat-autocomplete #normal="matAutocomplete">
+    <mat-option
+      *ngFor="let item of filteredData"
+      [value]="addLines(item)"
+      (click)="setKural(addLines(item))"
+      class="m-2"
+    >
+      {{ addLines(item) }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
