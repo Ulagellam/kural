@@ -1,1 +1,21 @@
-{"siteName":"Kuralpal","name":"Introduction","palName":"Part","iyal":"Section","athikaramName":"Chapter","langName":"Language","explanation":"Explanation","home":"Home","valluvar":"Valluvar","translators":"Translators","why":"Why Kuralpal?","contribute":"Contribute","aboutus":"About us","contactus":"Contact us","team":"Team"}
+{
+  "siteName": "Kuralpal",
+  "name": "Introduction",
+  "palName": "Part",
+  "iyal": "Section",
+  "athikaramName": "Chapter",
+  "langName": "Language",
+  "explanation": "Explanation",
+  "home": "Home",
+  "valluvar": "Valluvar",
+  "translators": "Translators",
+  "why": "Why Kuralpal?",
+  "contribute": "Contribute",
+  "aboutus": "About us",
+  "contactus": "Contact us",
+  "team": "Team",
+  "search": {
+    "number": "Find Kural with Number",
+    "search": "Find Kural with Text"
+  }
+}
