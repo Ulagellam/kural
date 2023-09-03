@@ -19,4 +19,8 @@ export class HomeComponent {
       audioElement.play();
     }
   }
+
+  splitWords(line: string){
+    return (line).split(" ").filter(item => item != "")
+  }
 }

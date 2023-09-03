@@ -7,32 +7,57 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
-  searchTerm = '';
-  jsonData: any[] = [];
+  numberSearch = '';
+  search = '';
+  kuralsData: any[] = [];
+  transData: any[] = [];
   filteredData: any[] = [];
 
-  constructor(private dataService: DataService) {}
+  constructor(public dataService: DataService) {}
 
   ngOnInit() {
     this.dataService.getAllKurals().subscribe((data) => {
-      this.jsonData = [].concat(...data.map((item) => item.kurals));
-      this.filteredData = this.jsonData
+      this.kuralsData = [].concat(...data.map((item) => item.kurals));
+      this.filteredData = this.kuralsData;
+    });
+    this.dataService.getAllTrans().subscribe((data) => {
+      this.transData = [].concat(...data.map((item) => item.trans));
     });
   }
 
+  filterDataByNumber() {
+    this.filterDataCommon((item) => item.id.toString().includes(this.numberSearch));
+  }
+
   filterData() {
-    this.filteredData = this.jsonData.filter((item) =>
-    item.id.toString().includes(this.searchTerm.toString())
-    
-    );
-    if (this.searchTerm == ""){
-      this.dataService.selectedKurals(this.dataService.athikaram)
+    this.filterDataCommon((item) => this.addLines(item).includes(this.search));
+  }
+
+  filterDataCommon(filterFn: (item: any) => boolean) {
+    this.filteredData = this.kuralsData.filter(filterFn);
+    if (!this.numberSearch || !this.search) {
+      this.dataService.selectedKurals(this.dataService.athikaram);
     }
   }
 
-  setKural(id: number){
-    this.dataService.kurals = this.filteredData.filter((item) => item.id.toString() == id.toString());
-    console.log(this.filteredData);
-    console.log(this.dataService.kurals);
+  setKuralWithId(id: number) {
+    this.setKuralCommon(this.filteredData.filter((item) => item.id.toString() == id.toString()));
+    this.numberSearch = ""
+  }
+
+  setKural(kural: string) {
+    const kuralData = this.filteredData.filter((item) => this.addLines(item).toString() == kural.toString());
+    this.setKuralCommon(kuralData);
+    this.search = ""
+  }
+
+  setKuralCommon(kuralData: any[]) {
+    this.dataService.kurals = kuralData;
+    const id = kuralData.length > 0 ? kuralData[0].id : '';
+    this.dataService.trans = this.transData.filter((item) => item.id.toString() == id.toString());
+  }
+
+  addLines(item: any) {
+    return item.l1 + " " + item.l2
   }
 }
