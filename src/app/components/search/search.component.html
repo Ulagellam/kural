@@ -9,7 +9,7 @@
   />
   <mat-autocomplete #number="matAutocomplete">
     <mat-option
-      *ngFor="let item of filteredData"
+      *ngFor="let item of filteredNumberData"
       [value]="item.id"
       (click)="setKuralWithId(item.id)"
     >

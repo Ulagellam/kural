@@ -49,5 +49,11 @@
 
 .word {
     margin: 3px;
-    text-decoration: dashed;
+    cursor: pointer;
+}
+
+.word-not {
+    margin: 2px;
+    cursor: text;
+    text-decoration: none;
 }
