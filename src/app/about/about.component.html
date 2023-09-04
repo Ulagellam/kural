@@ -2,15 +2,15 @@
   <mat-tab-group>
     <mat-tab label="About Us">
       <div class="tab-container">
-        <p>{{ details.al1 }}</p>
-        <p>{{ details.al2 }}</p>
+        <p>{{ dataService.about.al1 }}</p>
+        <p>{{ dataService.about.al2 }}</p>
         <br />
-        <h4>{{ details.contactTitle }}</h4>
-        <p>{{ details.cl1 }}</p>
+        <h4>{{ dataService.about.contactTitle }}</h4>
+        <p>{{ dataService.about.cl1 }}</p>
       </div>
     </mat-tab>
     <mat-tab label="Team"> <div class="tab-container justify-content-center">
-        <mat-card *ngFor="let team of details.team" class="card">
+        <mat-card *ngFor="let team of dataService.about.team" class="card">
             <mat-card-header>
                 <mat-card-title-group>
                     <mat-card-title class="avatar-name">{{team.name}}</mat-card-title>

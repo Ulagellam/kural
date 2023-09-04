@@ -12,6 +12,7 @@ export class SearchComponent implements OnInit {
   kuralsData: any[] = [];
   transData: any[] = [];
   filteredData: any[] = [];
+  filteredNumberData: any[] = [];
 
   constructor(public dataService: DataService) {}
 
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
     this.dataService.getAllKurals().subscribe((data) => {
       this.kuralsData = [].concat(...data.map((item) => item.kurals));
       this.filteredData = this.kuralsData;
+      this.filteredNumberData = this.kuralsData;
     });
     this.dataService.getAllTrans().subscribe((data) => {
       this.transData = [].concat(...data.map((item) => item.trans));
@@ -26,22 +28,21 @@ export class SearchComponent implements OnInit {
   }
 
   filterDataByNumber() {
-    this.filterDataCommon((item) => item.id.toString().includes(this.numberSearch));
+    this.filteredNumberData = this.kuralsData.filter((item) => item.id.toString().includes(this.numberSearch));
+    if (!this.numberSearch) {
+      this.dataService.selectedKurals(this.dataService.athikaram);
+    }
   }
 
   filterData() {
-    this.filterDataCommon((item) => this.addLines(item).includes(this.search));
-  }
-
-  filterDataCommon(filterFn: (item: any) => boolean) {
-    this.filteredData = this.kuralsData.filter(filterFn);
-    if (!this.numberSearch || !this.search) {
+    this.filteredData = this.kuralsData.filter((item) => this.addLines(item).includes(this.search));
+    if (!this.search) {
       this.dataService.selectedKurals(this.dataService.athikaram);
     }
   }
 
   setKuralWithId(id: number) {
-    this.setKuralCommon(this.filteredData.filter((item) => item.id.toString() == id.toString()));
+    this.setKuralCommon(this.filteredNumberData.filter((item) => item.id.toString() == id.toString()));
     this.numberSearch = ""
   }
 

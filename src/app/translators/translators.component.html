@@ -1,7 +1,7 @@
 <div class="container">
     
     <h2>{{dataService.labels.translators}}</h2>
-    <mat-card *ngFor="let translator of translators" class="card">
+    <mat-card *ngFor="let translator of dataService.translators" class="card">
         <mat-card-header>
             <mat-card-title-group>
                 <mat-card-title class="avatar-name">{{translator.name}}</mat-card-title>

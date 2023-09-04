@@ -42,6 +42,12 @@ export class DataService {
   pal: any[] = [];
   selectedPalId = 1;
   selectedPal = '';
+  about: any;
+  contribute: any;
+  translators: any;
+  valluvar: any;
+  why: any;
+
 
   constructor(private http: HttpClient) {
     this.loadLabels();
@@ -53,6 +59,7 @@ export class DataService {
     } else if (language === 'தமிழ்') {
       this.langExtension = '';
     }
+    this.loadLabels()
   }
 
   loadLabels() {
@@ -61,6 +68,11 @@ export class DataService {
       .subscribe((data: any) => {
         this.labels = data;
       });
+    this.getAboutData()
+    this.getContributeData()
+    this.getTranslatorsData()
+    this.getValluvarData()
+    this.getWhyData()
   }
 
   selectedIyl(palId: number) {
@@ -148,5 +160,31 @@ export class DataService {
     return this.http.get<any[]>(
       `assets/kural/translation${this.langExtension}.json`
     );
+  }
+
+  getAboutData(){
+    this.http.get<any>('assets/kural/about' + this.langExtension + '.json').subscribe(data => {
+      this.about = data;
+    });
+  }
+  getContributeData(){
+    this.http.get<any>('assets/kural/contribute' + this.langExtension + '.json').subscribe(data => {
+      this.contribute = data;
+    });
+  }
+  getTranslatorsData(){
+    this.http.get<any>('assets/kural/translators' + this.langExtension + '.json').subscribe(data => {
+      this.translators = data;
+    });
+  }
+  getValluvarData(){
+    this.http.get<any>('assets/kural/valluvar' + this.langExtension + '.json').subscribe(data => {
+      this.valluvar = data;
+    });
+  }
+  getWhyData(){
+    this.http.get<any>('assets/kural/why' + this.langExtension + '.json').subscribe(data => {
+      this.why = data;
+    });
   }
 }
