@@ -38,6 +38,10 @@
     padding: 0;
 }
 
+.search-container{
+    padding: 0;
+}
+
 .play{
     border-radius: 5px;
     text-align: left;

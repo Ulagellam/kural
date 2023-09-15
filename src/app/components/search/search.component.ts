@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class SearchComponent implements OnInit {
   transData: any[] = [];
   filteredData: any[] = [];
   filteredNumberData: any[] = [];
+  @Input() type: "search" | "number" = "search"
 
   constructor(public dataService: DataService) {}
 

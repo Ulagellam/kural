@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row justify-content-center text-center m-2">
-    <div class="col-xl-6">
+    <div class="col-xl-9">
       <div class="row justify-content-center text-center">
         <div class="col-md-4 pal-container" *ngFor="let p of dataService.pal">
           <button
@@ -12,8 +12,16 @@
             {{ p.name }}
           </button>
         </div>
-        <div class="col-md-4 pal-container">
+      </div>
+    </div>
+  <div class="row justify-content-center text-center m-2">
+    <div class="col-xl-6">
+      <div class="row justify-content-center text-center">
+        <div class="col-md-6 search-container">
           <app-search></app-search>
+        </div>
+        <div class="col-md-6 search-container">
+          <app-search type="number"></app-search>
         </div>
       </div>
     </div>
