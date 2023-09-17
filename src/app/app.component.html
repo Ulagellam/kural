@@ -1,31 +1,37 @@
-<mat-drawer-container autosize [hasBackdrop]="true">
+<div id="spinner" class="not-display">      <mat-progress-bar
+  color="primary"
+  mode=
+  'indeterminate'
+  >
+</mat-progress-bar></div>
+<mat-drawer-container autosize [hasBackdrop]="true" id="drawer" class="display">
   <mat-drawer #leftSidenav class="sidenav" mode="over">
     <mat-toolbar color="primary" class="sidenav-toolbar">
-      <h1>{{ dataService.labels.siteName }}</h1>
+      <h1>{{ dataService.labels().siteName }}</h1>
     </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/" (click)="leftSidenav.toggle()">
-        <div class="inset">{{ dataService.labels.home }}</div>
+        <div class="inset">{{ dataService.labels().home }}</div>
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/valluvar" (click)="leftSidenav.toggle()">
-        <div class="inset">{{ dataService.labels.valluvar }}</div>
+        <div class="inset">{{ dataService.labels().valluvar }}</div>
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/translators" (click)="leftSidenav.toggle()">
-        <div class="inset">{{ dataService.labels.translators }}</div>
+        <div class="inset">{{ dataService.labels().translators }}</div>
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/why" (click)="leftSidenav.toggle()">
-        <div class="inset">{{ dataService.labels.why }}</div>
+        <div class="inset">{{ dataService.labels().why }}</div>
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/contribute" (click)="leftSidenav.toggle()">
-        <div class="inset">{{ dataService.labels.contribute }}</div>
+        <div class="inset">{{ dataService.labels().contribute }}</div>
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/about" (click)="leftSidenav.toggle()">
-        <div class="inset">{{ dataService.labels.aboutus }}</div>
+        <div class="inset">{{ dataService.labels().aboutus }}</div>
       </a>
       <mat-divider></mat-divider>
     </mat-nav-list>
@@ -36,7 +42,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <a class="navbar-brand" routerLink="/">
-    <span>{{ dataService.labels.siteName }}</span>
+    <span>{{ dataService.labels().siteName }}</span>
     </a>
     <span class="toolbar-spacer"></span>
     <div class="nav-item">

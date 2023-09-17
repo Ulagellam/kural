@@ -1,7 +1,7 @@
 <mat-form-field appearance="outline" *ngIf="type == 'number'">
   <input
     type="text"
-    placeholder="{{ this.dataService.labels.search.number }}"
+    placeholder="{{ this.dataService.labels().search.number }}"
     matInput
     [(ngModel)]="numberSearch"
     (input)="filterDataByNumber()"
@@ -21,7 +21,7 @@
 <mat-form-field appearance="outline" [style.width.px]="327" *ngIf="type == 'search'">
   <input
     type="text"
-    placeholder="{{ this.dataService.labels.search.search }}"
+    placeholder="{{ this.dataService.labels().search.search }}"
     matInput
     [(ngModel)]="search"
     (input)="filterData()"

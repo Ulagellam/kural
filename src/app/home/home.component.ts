@@ -27,7 +27,7 @@ export class HomeComponent {
   }
 
   playWords(word: string) {
-    // if (this.dataService.langExtension != '' || this.playing){
+    // if (this.dataService.langExtension() != '' || this.playing){
     //   return
     // }
 

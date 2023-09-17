@@ -54,9 +54,9 @@ export class SearchComponent implements OnInit {
   }
 
   setKuralCommon(kuralData: any[]) {
-    this.dataService.kurals = kuralData;
+    this.dataService.kurals.set(kuralData);
     const id = kuralData.length > 0 ? kuralData[0].id : '';
-    this.dataService.trans = this.transData.filter((item) => item.id.toString() == id.toString());
+    this.dataService.trans.set(this.transData.filter((item) => item.id.toString() == id.toString()));
   }
 
   addLines(item: any) {

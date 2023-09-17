@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, effect, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 interface SiteData {
@@ -28,56 +28,80 @@ interface SiteData {
 })
 export class DataService {
   isLoading = true;
-  langExtension = '';
+  langExtension = signal('');
   selectedLanguage = 'தமிழ்';
   selectedIyalValue = '';
   selectedAthikaramValue = '';
-  labels: SiteData;
+  labels = signal<SiteData>({
+    siteName: '',
+    name: '',
+    palName: '',
+    iyal: '',
+    athikaramName: '',
+    langName: '',
+    explanation: '',
+    home: '',
+    valluvar: '',
+    translators: '',
+    why: '',
+    contribute: '',
+    aboutus: '',
+    contactus: '',
+    team: '',
+    search: {
+      number: '',
+      search: '',
+    },
+  });
   selectedIyal = '';
-  iyals: any[] = [];
-  athikarams: any[] = [];
+  iyals = signal([]);
+  athikarams = signal([]);
   athikaram = '';
-  kurals: any[] = [];
-  trans: any[] = [];
-  pal: any[] = [];
+  kurals = signal([]);
+  trans = signal([]);
+  pal = signal([]);
   selectedPalId = 1;
   selectedPal = '';
-  about: any;
-  contribute: any;
-  translators: any;
-  valluvar: any;
-  why: any;
-
+  about = signal<any>({});
+  contribute = signal<any>({});
+  translators = signal<any>([]);
+  valluvar = signal<any>({});
+  why = signal<any>({});
 
   constructor(private http: HttpClient) {
     this.loadLabels();
+    effect(() => {
+      this.getAboutData();
+      this.getContributeData();
+      this.getTranslatorsData();
+      this.getValluvarData();
+      this.getWhyData();
+    });
+    effect(() => {
+      this.handleIsLoading();
+    });
   }
 
   updateLangExtensions(language: string) {
     if (language === 'English') {
-      this.langExtension = '_en';
+      this.langExtension.set('_en');
     } else if (language === 'தமிழ்') {
-      this.langExtension = '';
+      this.langExtension.set('');
     }
-    this.loadLabels()
+    this.loadLabels();
   }
 
   loadLabels() {
     this.http
-      .get(`assets/kural/label${this.langExtension}.json`)
+      .get(`assets/kural/label${this.langExtension()}.json`)
       .subscribe((data: any) => {
-        this.labels = data;
+        this.labels.set(data);
       });
-    this.getAboutData()
-    this.getContributeData()
-    this.getTranslatorsData()
-    this.getValluvarData()
-    this.getWhyData()
   }
 
   selectedIyl(palId: number) {
     this.http
-      .get(`assets/kural/iyal${this.langExtension}.json`)
+      .get(`assets/kural/iyal${this.langExtension()}.json`)
       .subscribe((data1: any[]) => {
         let iyals: string[] = [];
         for (let i = 0; i < data1.length; i++) {
@@ -85,23 +109,22 @@ export class DataService {
             iyals = data1[i].iyal;
           }
         }
-        this.iyals = iyals;
-        this.selectedIyal = this.iyals[0];
+        this.iyals.set(iyals);
+        this.selectedIyal = this.iyals()[0];
         this.selectedAthikaram();
       });
   }
 
   selectedAthikaram() {
-    console.log(this.selectedIyal);
     this.http
-      .get(`assets/kural/athikaram${this.langExtension}.json`)
+      .get(`assets/kural/athikaram${this.langExtension()}.json`)
       .subscribe((data: any[]) => {
         for (let i = 0; i < data.length; i++) {
           if (data[i].iyal === this.selectedIyal) {
-            this.athikarams = data[i].athikaram;
+            this.athikarams.set(data[i].athikaram);
           }
         }
-        this.athikaram = this.athikarams[0];
+        this.athikaram = this.athikarams()[0];
         this.selectedKurals(this.athikaram);
       });
   }
@@ -113,19 +136,18 @@ export class DataService {
           data[i].athikaram.replace(/^\s+|\s+$/g, '') ===
           this.athikaram.replace(/^\s+|\s+$/g, '')
         ) {
-          this.kurals = data[i].kurals;
+          this.kurals.set(data[i].kurals);
         }
       }
       this.athikaram = selectedAthikaram;
       this.getAllTrans().subscribe((transData: any[]) => {
-        this.trans = [];
         for (let i = 0; i < transData.length; i++) {
           if (
             transData[i].athikaram.replace(/^\s+|\s+$/g, '') ===
             this.athikaram.replace(/^\s+|\s+$/g, '')
           ) {
             for (let j = 0; j < transData[i].trans.length; j++) {
-              this.trans.push(transData[i].trans[j]);
+              this.trans().push(transData[i].trans[j]);
             }
           }
         }
@@ -142,9 +164,9 @@ export class DataService {
     this.selectedKurals(this.athikaram);
     this.loadLabels();
     this.http
-      .get(`assets/kural/pal${this.langExtension}.json`)
+      .get(`assets/kural/pal${this.langExtension()}.json`)
       .subscribe((data: any[]) => {
-        this.pal = data;
+        this.pal.set(data);
         this.selectedPalId = data[0].id;
         this.selectedPal = data[0].name;
       });
@@ -152,39 +174,73 @@ export class DataService {
 
   getAllKurals() {
     return this.http.get<any[]>(
-      `assets/kural/kurals${this.langExtension}.json`
+      `assets/kural/kurals${this.langExtension()}.json`
     );
   }
 
   getAllTrans() {
     return this.http.get<any[]>(
-      `assets/kural/translation${this.langExtension}.json`
+      `assets/kural/translation${this.langExtension()}.json`
     );
   }
 
-  getAboutData(){
-    this.http.get<any>('assets/kural/about' + this.langExtension + '.json').subscribe(data => {
-      this.about = data;
-    });
+  getAboutData() {
+    this.http
+      .get<any>('assets/kural/about' + this.langExtension() + '.json')
+      .subscribe((data) => {
+        this.about.set(data);
+      });
   }
-  getContributeData(){
-    this.http.get<any>('assets/kural/contribute' + this.langExtension + '.json').subscribe(data => {
-      this.contribute = data;
-    });
+  getContributeData() {
+    this.http
+      .get<any>('assets/kural/contribute' + this.langExtension() + '.json')
+      .subscribe((data) => {
+        this.contribute.set(data);
+      });
   }
-  getTranslatorsData(){
-    this.http.get<any>('assets/kural/translators' + this.langExtension + '.json').subscribe(data => {
-      this.translators = data;
-    });
+  getTranslatorsData() {
+    this.http
+      .get<any>('assets/kural/translators' + this.langExtension() + '.json')
+      .subscribe((data) => {
+        this.translators.set(data);
+      });
   }
-  getValluvarData(){
-    this.http.get<any>('assets/kural/valluvar' + this.langExtension + '.json').subscribe(data => {
-      this.valluvar = data;
-    });
+  getValluvarData() {
+    this.http
+      .get<any>('assets/kural/valluvar' + this.langExtension() + '.json')
+      .subscribe((data) => {
+        this.valluvar.set(data);
+      });
   }
-  getWhyData(){
-    this.http.get<any>('assets/kural/why' + this.langExtension + '.json').subscribe(data => {
-      this.why = data;
-    });
+  getWhyData() {
+    this.http
+      .get<any>('assets/kural/why' + this.langExtension() + '.json')
+      .subscribe((data) => {
+        this.why.set(data);
+      });
   }
+  handleIsLoading() {
+    const conditionsMet =
+      this.about() &&
+      this.valluvar() &&
+      this.contribute() &&
+      this.why() &&
+      this.translators() &&
+      this.athikarams()[0] &&
+      this.iyals()[0] &&
+      this.kurals()[0] &&
+      this.trans()[0] &&
+      this.pal()[0] &&
+      this.labels().siteName;
+  
+    this.isLoading = !conditionsMet;
+    if (this.isLoading){
+      document.getElementById("drawer").classList.replace("display", "not-display")
+      document.getElementById("spinner").classList.replace("not-display", "display")
+    } else {
+      document.getElementById("drawer").classList.replace("not-display", "display")
+      document.getElementById("spinner").classList.replace("display", "not-display")
+    }
+  }
+  
 }

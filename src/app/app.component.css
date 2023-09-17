@@ -23,3 +23,9 @@ h1.title {
 label.button-label{
     font-size:x-small;
 }
+.display {
+    display: block !important;
+}
+.not-display {
+    display: none !important;
+}
