@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -64,7 +64,7 @@ import { SearchComponent } from './components/search/search.component';
     MatTabsModule,
     MatAutocompleteModule,
     FormsModule,
-    MatProgressBarModule
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -18,7 +18,7 @@ p.text {
 h1.title {
     font-weight: bold;
     font-size: xx-large;
-}
+} 
 
 label.button-label{
     font-size:x-small;
@@ -28,4 +28,11 @@ label.button-label{
 }
 .not-display {
     display: none !important;
+}
+
+#spinner{
+    height: 100vh;
+    justify-content: center;
+    display: flex !important;
+    align-items: center;
 }

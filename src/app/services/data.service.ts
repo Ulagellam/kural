@@ -70,6 +70,7 @@ export class DataService {
 
   constructor(private http: HttpClient) {
     this.loadLabels();
+    this.selectedTrans(this.selectedLanguage);
     effect(() => {
       this.getAboutData();
       this.getContributeData();
@@ -225,7 +226,7 @@ export class DataService {
       this.valluvar() &&
       this.contribute() &&
       this.why() &&
-      this.translators() &&
+      this.translators()[0] &&
       this.athikarams()[0] &&
       this.iyals()[0] &&
       this.kurals()[0] &&
@@ -240,6 +241,7 @@ export class DataService {
     } else {
       document.getElementById("drawer").classList.replace("not-display", "display")
       document.getElementById("spinner").classList.replace("display", "not-display")
+      document.getElementById("spinner").id = ''
     }
   }
   
